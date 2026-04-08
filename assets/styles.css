@@ -1,0 +1,128 @@
+/* Jarvis Iron Man Theme CSS for Streamlit */
+
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap');
+
+html, body, [class*="css"] {
+    font-family: 'Rajdhani', sans-serif !important;
+}
+
+/* Base background */
+.stApp {
+    background: radial-gradient(circle at center, #0a192f 0%, #020c1b 100%);
+    color: #e6f1ff;
+}
+
+/* Headers and Text */
+h1, h2, h3, h4, h5, h6 {
+    color: #64ffda !important;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(100, 255, 218, 0.4);
+}
+
+p, span, div {
+    color: #ccd6f6;
+}
+
+/* Sidebar styling - Glassmorphism */
+.stSidebar > div:first-child {
+    background: rgba(2, 12, 27, 0.7) !important;
+    backdrop-filter: blur(10px);
+    border-right: 1px solid rgba(100, 255, 218, 0.2);
+    box-shadow: inset -5px 0 15px rgba(0, 0, 0, 0.5);
+}
+
+/* Buttons */
+.stButton > button {
+    background: transparent !important;
+    color: #64ffda !important;
+    border: 1px solid #64ffda !important;
+    border-radius: 4px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 0 5px rgba(100, 255, 218, 0.2);
+}
+
+.stButton > button:hover {
+    background: rgba(100, 255, 218, 0.1) !important;
+    box-shadow: 0 0 15px rgba(100, 255, 218, 0.6);
+    transform: translateY(-2px);
+}
+
+/* Input fields */
+.stTextInput > div > div > input,
+.stSelectbox > div > div > div {
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: #64ffda !important;
+    border: 1px solid rgba(100, 255, 218, 0.3) !important;
+    border-radius: 4px;
+    box-shadow: none;
+    transition: all 0.3s ease;
+}
+
+.stTextInput > div > div > input:focus,
+.stSelectbox > div > div > div:focus-within {
+    border-color: #64ffda !important;
+    box-shadow: 0 0 10px rgba(100, 255, 218, 0.5) !important;
+}
+
+/* Chat messages */
+.stChatMessage {
+    background: rgba(10, 25, 47, 0.8) !important;
+    border: 1px solid rgba(100, 255, 218, 0.2);
+    border-radius: 8px;
+    backdrop-filter: blur(5px);
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Expanders */
+.streamlit-expanderHeader {
+    color: #64ffda !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(100, 255, 218, 0.2) !important;
+    border-radius: 4px;
+}
+.streamlit-expanderContent {
+    border: 1px solid rgba(100, 255, 218, 0.2) !important;
+    border-top: none !important;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    background: rgba(10, 25, 47, 0.5) !important;
+}
+
+/* Chat Input */
+.stChatInput {
+    background: rgba(2, 12, 27, 0.9) !important;
+    border: 1px solid rgba(100, 255, 218, 0.4) !important;
+    border-radius: 30px !important;
+    box-shadow: 0 0 15px rgba(100, 255, 218, 0.2) !important;
+}
+
+.stChatInput textarea {
+    color: #64ffda !important;
+}
+
+/* Dividers */
+hr {
+    border-top: 1px solid rgba(100, 255, 218, 0.3) !important;
+    box-shadow: 0 0 5px rgba(100, 255, 218, 0.5);
+}
+
+/* Scrollbar styling for webkit */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #020c1b; 
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(100, 255, 218, 0.5); 
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(100, 255, 218, 0.8); 
+}

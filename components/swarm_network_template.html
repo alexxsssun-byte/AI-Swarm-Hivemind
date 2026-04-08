@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(circle at center, #0a192f 0%, #020c1b 100%);
+      color: #64ffda;
+      font-family: 'Rajdhani', sans-serif;
+      overflow: hidden;
+    }
+    #graph {
+      width: 100vw;
+      height: 100vh;
+    }
+    .node circle {
+      stroke: #64ffda;
+      stroke-width: 2px;
+      fill: rgba(10, 25, 47, 0.8);
+      filter: drop-shadow(0 0 8px rgba(100, 255, 218, 0.8));
+      transition: all 0.3s ease;
+    }
+    .node:hover circle {
+      fill: rgba(100, 255, 218, 0.3);
+      filter: drop-shadow(0 0 15px rgba(100, 255, 218, 1));
+    }
+    .node text {
+      font-size: 14px;
+      font-weight: 600;
+      fill: #e6f1ff;
+      pointer-events: none;
+      text-shadow: 0 0 5px rgba(100, 255, 218, 0.5);
+    }
+    .link {
+      stroke: rgba(100, 255, 218, 0.4);
+      stroke-width: 2px;
+      filter: drop-shadow(0 0 5px rgba(100, 255, 218, 0.3));
+    }
+    .link-animated {
+      stroke-dasharray: 5, 5;
+      animation: flow 10s linear infinite;
+    }
+    @keyframes flow {
+      from { stroke-dashoffset: 100; }
+      to { stroke-dashoffset: 0; }
+    }
+  </style>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+  <div id="graph"></div>
+  <script>
+    const nodesData = {{NODES}};
+    const edgesData = {{EDGES}};
+
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    const svg = d3.select("#graph")
+      .append("svg")
+      .attr("width", width)
+      .attr("height", height)
+      .call(d3.zoom().on("zoom", (event) => {
+        g.attr("transform", event.transform);
+      }));
+
+    const g = svg.append("g");
+
+    // Force simulation
+    const simulation = d3.forceSimulation(nodesData)
+      .force("link", d3.forceLink(edgesData).id(d => d.id).distance(150))
+      .force("charge", d3.forceManyBody().strength(-400))
+      .force("center", d3.forceCenter(width / 2, height / 2))
+      .force("collide", d3.forceCollide().radius(50));
+
+    // Links
+    const link = g.append("g")
+      .selectAll("line")
+      .data(edgesData)
+      .join("line")
+      .attr("class", "link link-animated");
+
+    // Nodes
+    const node = g.append("g")
+      .selectAll("g")
+      .data(nodesData)
+      .join("g")
+      .attr("class", "node")
+      .call(d3.drag()
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended));
+
+    // Append circles
+    node.append("circle")
+      .attr("r", d => d.size || 25)
+      .style("stroke", d => d.color || "#64ffda");
+
+    // Append text
+    node.append("text")
+      .text(d => d.label || d.id)
+      .attr("x", 0)
+      .attr("y", d => (d.size || 25) + 15)
+      .attr("text-anchor", "middle");
+
+    // Ticks
+    simulation.on("tick", () => {
+      link
+        .attr("x1", d => d.source.x)
+        .attr("y1", d => d.source.y)
+        .attr("x2", d => d.target.x)
+        .attr("y2", d => d.target.y);
+
+      node
+        .attr("transform", d => `translate(${d.x},${d.y})`);
+    });
+
+    function dragstarted(event, d) {
+      if (!event.active) simulation.alphaTarget(0.3).restart();
+      d.fx = d.x;
+      d.fy = d.y;
+    }
+
+    function dragged(event, d) {
+      d.fx = event.x;
+      d.fy = event.y;
+    }
+
+    function dragended(event, d) {
+      if (!event.active) simulation.alphaTarget(0);
+      d.fx = null;
+      d.fy = null;
+    }
+    
+    // Handle resizes
+    window.addEventListener('resize', () => {
+        svg.attr("width", window.innerWidth).attr("height", window.innerHeight);
+        simulation.force("center", d3.forceCenter(window.innerWidth / 2, window.innerHeight / 2));
+        simulation.alpha(0.3).restart();
+    });
+  </script>
+</body>
+</html>
